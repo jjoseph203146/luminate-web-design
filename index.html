@@ -66,7 +66,14 @@
   @keyframes lt-flow{from{transform:translateY(0)}to{transform:translateY(-952px)}}
   @keyframes lt-sweep{from{transform:translateX(-330px)}to{transform:translateX(330px)}}
   #topo[data-paused="true"] .mk-lt-flow,#topo[data-paused="true"] .mk-lt-sweep{animation-play-state:paused!important}
-  @media (max-width:640px){#topo .mk-lt-layer[data-i="2"]{display:none}#topo .mk-lt-bright{opacity:.82}}
+  @media (max-width:640px){
+    #topo .mk-lt-layer[data-i="2"]{display:none}
+    #topo .mk-lt-bright{opacity:.82}
+    /* Keep the topography art, drop the motion — full flow/sweep animation
+       read as too much movement on phones. Freezes on the geometry's first
+       frame rather than an empty background. */
+    #topo.mk-lt-animated .mk-lt-flow,#topo.mk-lt-animated .mk-lt-sweep{animation:none}
+  }
   @media (prefers-reduced-motion:reduce){
     *{animation:none!important}
     [data-reveal]{opacity:1;transform:none}
