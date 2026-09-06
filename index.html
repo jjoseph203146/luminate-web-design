@@ -6,26 +6,10 @@
 <title>Luminate — Premium Websites &amp; Custom Software · Augusta, GA</title>
 <meta name="description" content="Luminate builds premium websites and custom software that help businesses earn trust, work smarter, and grow faster. Augusta &amp; the CSRA.">
 <link rel="icon" type="image/png" href="brand_assets/luminatelogo1.png">
-<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="styles.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-<script>
-tailwind.config = {
-  theme: {
-    extend: {
-      colors: {
-        navy:'#0D1B2E', navy2:'#0A1524', card:'#101F35', card2:'#152A45',
-        ink:'#F4F7FB', dim:'#C4D1E2', dim2:'#7E8DA0',
-        accent:'#E8E2D4', accenthi:'#F3EEE3',
-        brgreen:'#3DAE7A', brred:'#E0796B',
-        line:'rgba(196,209,226,.10)',
-      },
-      fontFamily:{ serif:['"Playfair Display"','serif'], sans:['Inter','system-ui','sans-serif'] },
-    },
-  },
-};
-</script>
 <style>
   html{scroll-behavior:smooth}
   body{font-family:Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased;background:#0D1B2E;color:#F4F7FB;overflow-x:hidden}
@@ -73,7 +57,10 @@ tailwind.config = {
   #topo svg{width:100%;height:100%;display:block}
   #topo .mk-lt-flow{transform-box:fill-box}
   #topo .mk-lt-dim path,#topo .mk-lt-bright path{fill:none;vector-effect:non-scaling-stroke}
-  #topo .mk-lt-bright{filter:drop-shadow(0 0 3px rgba(232,226,212,.55))}
+  /* No drop-shadow filter here on purpose: it sits on a continuously-translating
+     element (.mk-lt-flow), which forces the browser to re-rasterize the filtered
+     result every frame instead of compositing a cached layer. The stroke width/
+     opacity bump in the JS below approximates the same glow at compositor cost. */
   #topo.mk-lt-animated .mk-lt-flow{animation:lt-flow var(--fdur,48s) linear infinite;will-change:transform}
   #topo.mk-lt-animated .mk-lt-sweep{animation:lt-sweep 16s ease-in-out infinite alternate;will-change:transform}
   @keyframes lt-flow{from{transform:translateY(0)}to{transform:translateY(-952px)}}
@@ -464,7 +451,7 @@ tailwind.config = {
       dimPaths+='<path d="'+c.d+'" stroke="'+dimStroke+'" stroke-opacity="'+c.o+'" stroke-width="'+round1(opts.lineWidth*(1-li*0.12))+'" stroke-linecap="round"/>';}
     var brightPaths='';
     for(var j=0;j<layer.contours.length;j++){var c2=layer.contours[j];
-      brightPaths+='<path d="'+c2.d+'" stroke="'+ACCENT+'" stroke-opacity="'+round1(clamp(0.9*opts.intensity,0.3,1))+'" stroke-width="'+round1(opts.lineWidth*(1-li*0.08))+'" stroke-linecap="round"/>';}
+      brightPaths+='<path d="'+c2.d+'" stroke="'+ACCENT+'" stroke-opacity="'+round1(clamp(0.9*opts.intensity,0.3,1))+'" stroke-width="'+round1(opts.lineWidth*1.6*(1-li*0.08))+'" stroke-linecap="round"/>';}
     // dim lines flow continuously; bright reveal sits under a fixed traveling-light mask above the flow
     body+='<g class="mk-lt-layer" data-i="'+li+'">'
       +'<g class="mk-lt-flow" style="'+flowStyle+'"><g class="mk-lt-dim">'+dimPaths+'</g><g class="mk-lt-dim" transform="translate(0,'+SPAN+')">'+dimPaths+'</g></g>'
@@ -502,23 +489,23 @@ tailwind.config = {
 // Selected work cards
 (function(){
   var work = [
-    { n:'Abib Auto Sales', t:'Used Car Dealership', img:'images/work/abib-auto-sales.jpg', desc:"A used car lot that used to lose trust online before customers even walked in. We rebuilt it around full inventory, financing details, and one-tap calling — now the site sells the dealership before the salesperson has to." },
-    { n:'Dingle Tennis Academy', t:'Sports Coaching', img:'images/work/dingle-tennis-academy.jpg', desc:"Parents couldn't tell what programs were offered or how to sign up. We built a clear, high-energy site organized around programs and skill levels — lesson sign-ups now take one click, not a phone tag." },
-    { n:'There Is H.O.P.E. Ministries', t:'Faith · Nonprofit', img:'images/work/hope-ministries.jpg', desc:"A ministry with no easy way for new visitors to find service times or get involved. We built a warm, welcoming site around outreach programs and a simple way in — first-time visitors now know exactly where to start." },
-    { n:'Elite Shaken Lemonade', t:'Food & Beverage', img:'images/work/elite-shaken-lemonade.jpg', desc:"A growing beverage brand with no central place to showcase flavors or book events. We built a bright, appetite-driving site around locations and event booking — inquiries now come through the site instead of DMs." },
-    { n:'Rich Eatz', t:'Luxury Catering', img:'images/work/rich-eatz.jpg', desc:"A luxury catering brand whose old presence undersold the quality of the food. We built an elevated, image-forward site to match — inquiries picked up almost immediately after launch." },
-    { n:'Extra Credit Creations', t:'E-Commerce', img:'images/work/extra-credit-creations.jpg', desc:"A creative e-commerce brand held back by a clunky storefront. We rebuilt browsing and checkout to feel as good as the products themselves — fewer drop-offs between browsing and buying." },
-    { n:'Busy B Construction', t:'Contractor', img:'images/work/busy-b-construction.jpg', desc:"A contractor with no way to show proof of past work to new leads. We built a credibility-first site around services and past projects — quote requests now come in pre-qualified instead of cold." },
-    { n:'Creations by Melanie', t:'Custom Bakery', img:'images/work/creations-by-melanie.jpg', desc:"A custom bakery relying on word-of-mouth with no visual portfolio online. We built a gallery-driven site with a simple ordering inquiry flow — past work now does the selling before the first message." },
-    { n:'Realistic Impressions', t:'T-Shirt Printing', img:'images/work/realistic-impressions.jpg', desc:"A print shop where ordering custom apparel meant a phone call and a lot of back-and-forth. We built a bold, modern site that makes ordering feel as quick as the turnaround." },
-    { n:'MACH Academy', t:'Nonprofit · Tennis', img:'images/work/mach-academy.jpg', desc:"A youth tennis nonprofit with impact that wasn't visible to potential donors or families. We built a community-focused site around programs and impact — support and sign-ups now have a clear path in." },
-    { n:'Florida Tennis Family', t:'Tennis Organization', img:'images/work/florida-tennis-family.png', desc:"A statewide tennis organization needing one place to connect clubs, players, and communities. We built the official hub for the Florida Section of the American Tennis Association around exactly that." },
-    { n:'Alicia Fitts Show', t:'Talk Show · Podcast', img:'images/work/alicia-fitts-show.png', desc:"A talk show with a growing audience but no home base off social media. We built a site that gives the show's stories, financial insights, and community spotlights a permanent, professional home." },
-    { n:'Odell Cleveland', t:'Faith · Leadership Consulting', img:'images/work/odellcleveland.jpg', desc:"A faith leadership consultant whose expertise wasn't translating into booked strategy sessions. We built a growth-focused site around his stewardship approach — built to convert visitors into booked calls." },
+    { n:'Abib Auto Sales', t:'Used Car Dealership', img:'images/work/abib-auto-sales.jpg', url:null, desc:"A used car lot that used to lose trust online before customers even walked in. We rebuilt it around full inventory, financing details, and one-tap calling — now the site sells the dealership before the salesperson has to." },
+    { n:'J15 Tennis Academy', t:'Sports Coaching', img:'images/work/dingle-tennis-academy.jpg', url:'https://www.j15tennisacademy.com/', desc:"Parents couldn't tell what programs were offered or how to sign up. We built a clear, high-energy site organized around programs and skill levels — lesson sign-ups now take one click, not a phone tag." },
+    { n:'There Is H.O.P.E. Ministries', t:'Faith · Nonprofit', img:'images/work/hope-ministries.jpg', url:'https://www.thereishopeministries.org/', desc:"A ministry with no easy way for new visitors to find service times or get involved. We built a warm, welcoming site around outreach programs and a simple way in — first-time visitors now know exactly where to start." },
+    { n:'Elite Shaken Lemonade', t:'Food & Beverage', img:'images/work/elite-shaken-lemonade.jpg', url:null, desc:"A growing beverage brand with no central place to showcase flavors or book events. We built a bright, appetite-driving site around locations and event booking — inquiries now come through the site instead of DMs." },
+    { n:'Rich Eatz', t:'Luxury Catering', img:'images/work/rich-eatz.jpg', url:'https://lonzaricheatz.com', desc:"A luxury catering brand whose old presence undersold the quality of the food. We built an elevated, image-forward site to match — inquiries picked up almost immediately after launch." },
+    { n:'Extra Credit Creations', t:'E-Commerce', img:'images/work/extra-credit-creations.jpg', url:'https://extracreditcreations.lovable.app/', desc:"A creative e-commerce brand held back by a clunky storefront. We rebuilt browsing and checkout to feel as good as the products themselves — fewer drop-offs between browsing and buying." },
+    { n:'Busy B Construction', t:'Contractor', img:'images/work/busy-b-construction.jpg', url:'https://busybconstructionservices.com/', desc:"A contractor with no way to show proof of past work to new leads. We built a credibility-first site around services and past projects — quote requests now come in pre-qualified instead of cold." },
+    { n:'Creations by Melanie', t:'Custom Bakery', img:'images/work/creations-by-melanie.jpg', url:null, desc:"A custom bakery relying on word-of-mouth with no visual portfolio online. We built a gallery-driven site with a simple ordering inquiry flow — past work now does the selling before the first message." },
+    { n:'Realistic Impressions', t:'T-Shirt Printing', img:'images/work/realistic-impressions.jpg', url:'https://realisticimpressions.com', desc:"A print shop where ordering custom apparel meant a phone call and a lot of back-and-forth. We built a bold, modern site that makes ordering feel as quick as the turnaround." },
+    { n:'MACH Academy', t:'Nonprofit · Tennis', img:'images/work/mach-academy.jpg', url:'https://mach-youth-spark.lovable.app', desc:"A youth tennis nonprofit with impact that wasn't visible to potential donors or families. We built a community-focused site around programs and impact — support and sign-ups now have a clear path in." },
+    { n:'Florida Tennis Family', t:'Tennis Organization', img:'images/work/florida-tennis-family.jpg', url:'https://floridatennisfamily.org', desc:"A statewide tennis organization needing one place to connect clubs, players, and communities. We built the official hub for the Florida Section of the American Tennis Association around exactly that." },
+    { n:'Alicia Fitts Show', t:'Talk Show · Podcast', img:'images/work/alicia-fitts-show.jpg', url:'https://aliciafittsshow.com', desc:"A talk show with a growing audience but no home base off social media. We built a site that gives the show's stories, financial insights, and community spotlights a permanent, professional home." },
+    { n:'Odell Cleveland', t:'Faith · Leadership Consulting', img:'images/work/odellcleveland.jpg', url:'https://odellcleveland.com', desc:"A faith leadership consultant whose expertise wasn't translating into booked strategy sessions. We built a growth-focused site around his stewardship approach — built to convert visitors into booked calls." },
   ];
   var g = document.getElementById('projects');
   g.innerHTML = work.map(function(w){
-    return '<article class="card-hover rounded-2xl overflow-hidden surface group">'
+    var card = '<article class="card-hover rounded-2xl overflow-hidden surface group h-full">'
       + '<div class="aspect-[16/10] w-full relative overflow-hidden">'
       +   '<img src="'+w.img+'" alt="'+w.n+' website mockup" loading="lazy" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">'
       +   '<div class="absolute inset-0 flex flex-col justify-end p-5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" style="background:linear-gradient(to top,rgba(10,21,36,.94) 15%,rgba(10,21,36,.2) 65%,transparent 100%)">'
@@ -530,12 +517,15 @@ tailwind.config = {
       +   '<span class="text-ink border-l-2 border-accent pl-2">'+w.n+'</span>'
       +   '<span class="text-dim2">'+w.t+'</span>'
       + '</div></article>';
+    return w.url
+      ? '<a href="'+w.url+'" target="_blank" rel="noopener" class="block h-full">'+card+'</a>'
+      : card;
   }).join('');
 })();
 
 // Client marquee
 (function(){
-  var clients = ['Abib Auto Sales','Dingle Tennis Academy','Rich Eatz','Elite Shaken Lemonade','Creations by Melanie','Busy B Construction','MACH Academy','Extra Credit Creations','Realistic Impressions','There Is H.O.P.E. Ministries','The Reel Queen Academy','Alicia Fitts Show','Odell Cleveland','Diaspora Dolls'];
+  var clients = ['Abib Auto Sales','J15 Tennis Academy','Rich Eatz','Elite Shaken Lemonade','Creations by Melanie','Busy B Construction','MACH Academy','Extra Credit Creations','Realistic Impressions','There Is H.O.P.E. Ministries','The Reel Queen Academy','Alicia Fitts Show','Odell Cleveland','Diaspora Dolls'];
   var track = document.getElementById('marqueeTrack');
   var html = '';
   for (var r = 0; r < 2; r++) {
